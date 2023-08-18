@@ -3,7 +3,7 @@ Utilizing clusters of Node.js processes to run multiple multiple application thr
 
 
 
-#### Without Node.js cluster module
+#### Without Node cluster module
 Start server:
 ```
 node index.js
@@ -82,3 +82,65 @@ Percentage of the requests served within a certain time
    -1:   641 errors
 ```
 Almost half of the request resulted in errors.
+
+#### With Node cluster module
+Run `primary.js` to start server. H
+```
+$ node primary.js
+```
+Output:
+```
+The total number of CPUs is 10
+Primary pid=5266
+App listening on port 3000
+worker pid=5267
+App listening on port 3000
+worker pid=5270
+App listening on port 3000
+worker pid=5272
+App listening on port 3000
+App listening on port 3000
+worker pid=5276
+worker pid=5273
+App listening on port 3000
+worker pid=5268
+App listening on port 3000
+worker pid=5271
+App listening on port 3000
+worker pid=5275
+App listening on port 3000
+worker pid=5269
+App listening on port 3000
+worker pid=5274
+```
+Run the same load-test script: 
+```
+$ npx loadtest -n 1200 -c 400 -k http://localhost:3000/heavy
+```
+Output:
+```
+Requests: 0 (0%), requests per second: 0, mean latency: 0 ms
+Requests: 418 (35%), requests per second: 84, mean latency: 2320.2 ms
+Requests: 808 (67%), requests per second: 78, mean latency: 2697.2 ms
+Errors: 9, accumulated errors: 9, 1.1% of total requests
+
+Target URL:          http://localhost:3000/heavy
+Max requests:        1200
+Concurrency level:   400
+Agent:               keepalive
+
+Completed requests:  1200
+Total errors:        9
+Total time:          15.006753167000001 s
+Requests per second: 80
+Mean latency:        4158.3 ms
+
+Percentage of the requests served within a certain time
+  50%      3950 ms
+  90%      8508 ms
+  95%      8528 ms
+  99%      8587 ms
+ 100%      8716 ms (longest request)
+
+   -1:   9 errors
+```
