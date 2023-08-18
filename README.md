@@ -144,3 +144,7 @@ Percentage of the requests served within a certain time
 
    -1:   9 errors
 ```
+With the cluster module:
+- Total time went down from **110.98267** seconds to **15.006753167000001** seconds 
+- Total errors went down from **641** errors to **9** errors
+- Mean latency wen down from **29310.1**ms to **4158.3**ms
